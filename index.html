@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>अंक ते अक्षरी | Number to Marathi Words</title>
+
+  <!-- Inline SVG favicon — works offline, no external file needed -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FF6B00'/%3E%3Ccircle cx='32' cy='32' r='14' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='32' r='3' fill='white'/%3E%3Cg stroke='white' stroke-width='1.8'%3E%3Cline x1='32' y1='18' x2='32' y2='14'/%3E%3Cline x1='32' y1='46' x2='32' y2='50'/%3E%3Cline x1='18' y1='32' x2='14' y2='32'/%3E%3Cline x1='46' y1='32' x2='50' y2='32'/%3E%3Cline x1='22' y1='22' x2='19' y2='19'/%3E%3Cline x1='42' y1='42' x2='45' y2='45'/%3E%3Cline x1='42' y1='22' x2='45' y2='19'/%3E%3Cline x1='22' y1='42' x2='19' y2='45'/%3E%3Cline x1='32' y1='18' x2='33.2' y2='21'/%3E%3Cline x1='32' y1='18' x2='30.8' y2='21'/%3E%3Cline x1='32' y1='46' x2='33.2' y2='43'/%3E%3Cline x1='32' y1='46' x2='30.8' y2='43'/%3E%3Cline x1='18' y1='32' x2='21' y2='33.2'/%3E%3Cline x1='18' y1='32' x2='21' y2='30.8'/%3E%3Cline x1='46' y1='32' x2='43' y2='33.2'/%3E%3Cline x1='46' y1='32' x2='43' y2='30.8'/%3E%3C/g%3E%3Ctext x='32' y='37' font-family='serif' font-size='13' fill='white' text-anchor='middle' font-weight='bold'%3E%E0%A4%85%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23FF6B00'/%3E%3Ccircle cx='32' cy='32' r='14' fill='none' stroke='white' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='32' r='3' fill='white'/%3E%3Ctext x='32' y='37' font-family='serif' font-size='13' fill='white' text-anchor='middle' font-weight='bold'%3E%E0%A4%85%3C/text%3E%3C/svg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Marathi:ital@0;1&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --saffron: #FF6B00;
+      --deep-saffron: #D45200;
+      --cream: #FFF8EE;
+      --warm-white: #FFFDF8;
+      --ink: #1A0F00;
+      --muted: #7A5C3A;
+      --border: #E8D5B5;
+      --green: #138808;
+      --deep-green: #0D6606;
+      --navy: #000080;
+      --gold: #C8860A;
+      --shadow: rgba(255, 107, 0, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Tiro Devanagari Marathi', Georgia, serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Ashoka Chakra decorative top bar */
+    .topbar {
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(to right, var(--saffron) 33.33%, white 33.33%, white 66.66%, var(--green) 66.66%);
+    }
+
+    header {
+      text-align: center;
+      padding: 1.6rem 1rem 0.8rem;
+      position: relative;
+    }
+
+    main {
+      width: 100%;
+      max-width: 600px;
+      padding: 1.2rem 1rem 2rem;
+      flex: 1;
+    }
+
+    /* Input card */
+    .card {
+      background: var(--warm-white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 1.4rem 1.4rem;
+      box-shadow: 0 4px 24px var(--shadow);
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-family: 'Fira Code', monospace;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    input[type="number"] {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      font-size: 1.4rem;
+      font-family: 'Fira Code', monospace;
+      font-weight: 600;
+      color: var(--ink);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: white;
+      outline: none;
+      transition: border-color 0.2s;
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+    input[type="number"]:focus { border-color: var(--saffron); }
+
+    .btn-convert {
+      padding: 0.75rem 1.2rem;
+      background: var(--saffron);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-family: 'Tiro Devanagari Marathi', serif;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.18s, transform 0.1s;
+    }
+    .btn-convert:active { background: var(--deep-saffron); transform: scale(0.97); }
+
+    /* Toggle: रुपये / फक्त अंक */
+    .toggle-row {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 0.45rem 0.6rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: white;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-family: 'Fira Code', monospace;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+    }
+    .toggle-btn.active {
+      border-color: var(--saffron);
+      background: #FFF0E0;
+      color: var(--saffron);
+      font-weight: 600;
+    }
+
+    /* Result rows */
+    .result-card {
+      background: var(--warm-white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px var(--shadow);
+    }
+
+    .result-row {
+      display: flex;
+      align-items: stretch;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-row:last-child { border-bottom: none; }
+
+    .row-label {
+      width: 90px;
+      min-width: 90px;
+      padding: 0.8rem 0.7rem;
+      font-size: 0.72rem;
+      font-family: 'Fira Code', monospace;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      background: #FFF5E8;
+      border-right: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    .row-value {
+      flex: 1;
+      padding: 0.8rem 0.9rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--ink);
+      word-break: break-word;
+    }
+
+    .marathi-text { font-size: 1.15rem; }
+    .english-text { font-family: Georgia, serif; font-style: italic; font-size: 0.93rem; }
+
+    .copy-btn {
+      padding: 0 0.8rem;
+      background: transparent;
+      border: none;
+      border-left: 1px solid var(--border);
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 1.1rem;
+      transition: color 0.15s, background 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .copy-btn:hover { color: var(--saffron); background: #FFF0E0; }
+    .copy-btn.copied { color: var(--green); }
+    .copy-btn span.label { font-size: 0.62rem; font-family: 'Fira Code', monospace; }
+
+    /* Placeholder state */
+    .placeholder {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--border);
+      font-size: 2.5rem;
+    }
+
+    /* Error */
+    .error-msg {
+      text-align: center;
+      padding: 1rem;
+      color: #cc3300;
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-family: 'Fira Code', monospace;
+      border-top: 1px solid var(--border);
+      width: 100%;
+    }
+
+    /* Offline badge */
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 99px;
+      background: #e8f5e9;
+      color: var(--green);
+      font-size: 0.68rem;
+      font-family: 'Fira Code', monospace;
+      border: 1px solid #a5d6a7;
+      margin-left: 0.4rem;
+      vertical-align: middle;
+    }
+
+    /* Logo */
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .logo-svg {
+      width: 62px;
+      height: 62px;
+      filter: drop-shadow(0 3px 10px rgba(255,107,0,0.28));
+      flex-shrink: 0;
+    }
+    .logo-text-block {
+      text-align: left;
+    }
+    .logo-text-block h1 {
+      font-size: clamp(1.5rem, 5vw, 2.3rem);
+      color: var(--saffron);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .logo-text-block .tagline {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-family: 'Fira Code', monospace;
+      margin-top: 0.2rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar"></div>
+
+<header>
+  <div class="logo-wrap">
+    <!-- Inline SVG Logo -->
+    <svg class="logo-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#FF8C2A"/>
+          <stop offset="100%" stop-color="#D45200"/>
+        </linearGradient>
+        <linearGradient id="shineGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.25)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </linearGradient>
+      </defs>
+      <!-- Background rounded square -->
+      <rect width="120" height="120" rx="26" fill="url(#bgGrad)"/>
+      <!-- Shine overlay -->
+      <rect width="120" height="60" rx="26" fill="url(#shineGrad)"/>
+      <!-- Tricolor bottom strip -->
+      <rect x="0" y="106" width="40" height="14" rx="0" fill="#FF9933"/>
+      <rect x="40" y="106" width="40" height="14" fill="white"/>
+      <rect x="80" y="106" width="40" height="14" rx="0" fill="#138808"/>
+      <rect x="0" y="107" width="120" height="13" rx="0" fill="none"/>
+      <!-- clip tricolor to rounded bottom -->
+      <rect x="0" y="106" width="120" height="14" rx="0" fill="none"/>
+
+      <!-- Ashoka Chakra (simplified) -->
+      <circle cx="60" cy="52" r="22" fill="none" stroke="white" stroke-width="2.2" opacity="0.55"/>
+      <circle cx="60" cy="52" r="5" fill="white" opacity="0.7"/>
+      <!-- 12 spokes -->
+      <g stroke="white" stroke-width="1.4" opacity="0.55">
+        <line x1="60" y1="30" x2="60" y2="47"/>
+        <line x1="60" y1="57" x2="60" y2="74"/>
+        <line x1="38" y1="52" x2="55" y2="52"/>
+        <line x1="65" y1="52" x2="82" y2="52"/>
+        <line x1="44.5" y1="36.5" x2="56.3" y2="48.3"/>
+        <line x1="63.7" y1="55.7" x2="75.5" y2="67.5"/>
+        <line x1="75.5" y1="36.5" x2="63.7" y2="48.3"/>
+        <line x1="56.3" y1="55.7" x2="44.5" y2="67.5"/>
+        <line x1="44.5" y1="67.5" x2="56.3" y2="55.7"/>
+        <line x1="63.7" y1="48.3" x2="75.5" y2="36.5"/>
+        <line x1="75.5" y1="67.5" x2="63.7" y2="55.7"/>
+        <line x1="56.3" y1="48.3" x2="44.5" y2="36.5"/>
+      </g>
+
+      <!-- Devanagari "अ" glyph, prominent -->
+      <text x="60" y="68" font-family="'Tiro Devanagari Marathi', 'Noto Serif Devanagari', serif"
+            font-size="38" font-weight="700" fill="white"
+            text-anchor="middle" dominant-baseline="auto"
+            style="letter-spacing:0">अ</text>
+    </svg>
+
+    <div class="logo-text-block">
+      <h1>अंक ते अक्षरी</h1>
+      <div class="tagline">
+        Number → Marathi Words <span class="badge">✓ Offline</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="card">
+    <label>अंक टाका (Enter Number)</label>
+    <div class="input-row">
+      <input type="number" id="numInput" placeholder="उदा. 50311" min="0" max="999999999999" oninput="convert()" />
+      <button class="btn-convert" onclick="convert()">बदला</button>
+    </div>
+    <div class="toggle-row">
+      <button class="toggle-btn active" id="modeRupee" onclick="setMode('rupee')">₹ रुपये / Rupees</button>
+      <button class="toggle-btn" id="modeOnly"  onclick="setMode('only')">🔢 फक्त अंक / Number Only</button>
+    </div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="placeholder" id="placeholderMsg">🔢</div>
+  </div>
+</main>
+
+<footer>
+  © 2026 RZ_Homer. All Rights Reserved. &nbsp;|&nbsp; Runs fully offline on any device.
+</footer>
+
+<script>
+// ──────────────────────────────────────────────────────────
+//  DATA
+// ──────────────────────────────────────────────────────────
+const ones_mr = ['', 'एक', 'दोन', 'तीन', 'चार', 'पाच', 'सहा', 'सात', 'आठ', 'नऊ',
+  'दहा', 'अकरा', 'बारा', 'तेरा', 'चौदा', 'पंधरा', 'सोळा', 'सतरा', 'अठरा', 'एकोणीस',
+  'वीस', 'एकवीस', 'बावीस', 'तेवीस', 'चोवीस', 'पंचवीस', 'सव्वीस', 'सत्तावीस', 'अठ्ठावीस', 'एकोणतीस',
+  'तीस', 'एकतीस', 'बत्तीस', 'तेहतीस', 'चौतीस', 'पस्तीस', 'छत्तीस', 'सदतीस', 'अडतीस', 'एकोणचाळीस',
+  'चाळीस', 'एकेचाळीस', 'बेचाळीस', 'त्रेचाळीस', 'चव्वेचाळीस', 'पंचेचाळीस', 'सेहेचाळीस', 'सत्तेचाळीस', 'अठ्ठेचाळीस', 'एकोणपन्नास',
+  'पन्नास', 'एकावन्न', 'बावन्न', 'त्रेपन्न', 'चोपन्न', 'पंचावन्न', 'छप्पन्न', 'सत्तावन्न', 'अठ्ठावन्न', 'एकोणसाठ',
+  'साठ', 'एकसष्ट', 'बासष्ट', 'त्रेसष्ट', 'चौसष्ट', 'पासष्ट', 'सहासष्ट', 'सदुसष्ट', 'अडुसष्ट', 'एकोणसत्तर',
+  'सत्तर', 'एकाहत्तर', 'बाहत्तर', 'त्र्याहत्तर', 'चौऱ्याहत्तर', 'पंच्याहत्तर', 'शहात्तर', 'सत्त्याहत्तर', 'अठ्ठ्याहत्तर', 'एकोणऐंशी',
+  'ऐंशी', 'एक्याऐंशी', 'ब्याऐंशी', 'त्र्याऐंशी', 'चौऱ्याऐंशी', 'पंच्याऐंशी', 'शहाऐंशी', 'सत्त्याऐंशी', 'अठ्ठ्याऐंशी', 'एकोणनव्वद',
+  'नव्वद', 'एक्याण्णव', 'ब्याण्णव', 'त्र्याण्णव', 'चौऱ्याण्णव', 'पंच्याण्णव', 'शहाण्णव', 'सत्त्याण्णव', 'अठ्ठ्याण्णव', 'नव्याण्णव'];
+
+const ones_en = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+  'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen',
+  'Twenty', 'Twenty-One', 'Twenty-Two', 'Twenty-Three', 'Twenty-Four', 'Twenty-Five', 'Twenty-Six', 'Twenty-Seven', 'Twenty-Eight', 'Twenty-Nine',
+  'Thirty', 'Thirty-One', 'Thirty-Two', 'Thirty-Three', 'Thirty-Four', 'Thirty-Five', 'Thirty-Six', 'Thirty-Seven', 'Thirty-Eight', 'Thirty-Nine',
+  'Forty', 'Forty-One', 'Forty-Two', 'Forty-Three', 'Forty-Four', 'Forty-Five', 'Forty-Six', 'Forty-Seven', 'Forty-Eight', 'Forty-Nine',
+  'Fifty', 'Fifty-One', 'Fifty-Two', 'Fifty-Three', 'Fifty-Four', 'Fifty-Five', 'Fifty-Six', 'Fifty-Seven', 'Fifty-Eight', 'Fifty-Nine',
+  'Sixty', 'Sixty-One', 'Sixty-Two', 'Sixty-Three', 'Sixty-Four', 'Sixty-Five', 'Sixty-Six', 'Sixty-Seven', 'Sixty-Eight', 'Sixty-Nine',
+  'Seventy', 'Seventy-One', 'Seventy-Two', 'Seventy-Three', 'Seventy-Four', 'Seventy-Five', 'Seventy-Six', 'Seventy-Seven', 'Seventy-Eight', 'Seventy-Nine',
+  'Eighty', 'Eighty-One', 'Eighty-Two', 'Eighty-Three', 'Eighty-Four', 'Eighty-Five', 'Eighty-Six', 'Eighty-Seven', 'Eighty-Eight', 'Eighty-Nine',
+  'Ninety', 'Ninety-One', 'Ninety-Two', 'Ninety-Three', 'Ninety-Four', 'Ninety-Five', 'Ninety-Six', 'Ninety-Seven', 'Ninety-Eight', 'Ninety-Nine'];
+
+// ──────────────────────────────────────────────────────────
+//  CORE CONVERSION
+// ──────────────────────────────────────────────────────────
+
+function numToWordsMr(n) {
+  if (n === 0) return 'शून्य';
+  if (n < 0) return 'ऋण ' + numToWordsMr(-n);
+
+  let parts = [];
+
+  const crore = Math.floor(n / 10000000); n %= 10000000;
+  const lakh  = Math.floor(n / 100000);   n %= 100000;
+  const hajar = Math.floor(n / 1000);     n %= 1000;
+  const shat  = Math.floor(n / 100);      n %= 100;
+  const rest  = n;
+
+  if (crore) parts.push(numToWordsMr(crore) + ' कोटी');
+  if (lakh)  parts.push(ones_mr[lakh] + ' लाख');
+  if (hajar) parts.push(ones_mr[hajar] + ' हजार');
+  if (shat)  parts.push(ones_mr[shat]  + 'शे');
+  if (rest)  parts.push(ones_mr[rest]);
+
+  return parts.join(' ');
+}
+
+function numToWordsEn(n) {
+  if (n === 0) return 'Zero';
+  if (n < 0) return 'Minus ' + numToWordsEn(-n);
+
+  let parts = [];
+
+  const crore = Math.floor(n / 10000000); n %= 10000000;
+  const lakh  = Math.floor(n / 100000);   n %= 100000;
+  const hajar = Math.floor(n / 1000);     n %= 1000;
+  const shat  = Math.floor(n / 100);      n %= 100;
+  const rest  = n;
+
+  if (crore) parts.push(numToWordsEn(crore) + ' Crore');
+  if (lakh)  parts.push(ones_en[lakh] + ' Lakh');
+  if (hajar) parts.push(ones_en[hajar] + ' Thousand');
+  if (shat)  parts.push(ones_en[shat]  + ' Hundred');
+  if (rest)  parts.push(ones_en[rest]);
+
+  return parts.join(' ');
+}
+
+// ──────────────────────────────────────────────────────────
+//  MODE & STATE
+// ──────────────────────────────────────────────────────────
+let mode = 'rupee'; // 'rupee' | 'only'
+
+function setMode(m) {
+  mode = m;
+  document.getElementById('modeRupee').classList.toggle('active', m === 'rupee');
+  document.getElementById('modeOnly').classList.toggle('active', m === 'only');
+  convert();
+}
+
+// ──────────────────────────────────────────────────────────
+//  MAIN CONVERT
+// ──────────────────────────────────────────────────────────
+function convert() {
+  const raw = document.getElementById('numInput').value.trim();
+  const card = document.getElementById('resultCard');
+
+  if (raw === '') {
+    card.innerHTML = '<div class="placeholder" id="placeholderMsg">🔢</div>';
+    return;
+  }
+
+  const num = parseFloat(raw);
+  if (isNaN(num) || num < 0) {
+    card.innerHTML = '<div class="error-msg">कृपया योग्य अंक टाका (0 किंवा त्यापेक्षा जास्त)</div>';
+    return;
+  }
+
+  // Split integer and decimal
+  const intPart  = Math.floor(num);
+  const decStr   = raw.includes('.') ? raw.split('.')[1] : '';
+  const paisePart = decStr ? parseInt(decStr.substring(0, 2).padEnd(2, '0')) : 0;
+
+  let mr_words = numToWordsMr(intPart);
+  let en_words = numToWordsEn(intPart);
+
+  if (mode === 'rupee') {
+    mr_words += ' रुपये';
+    en_words += ' Rupees';
+    if (paisePart) {
+      mr_words += ' आणि ' + numToWordsMr(paisePart) + ' पैसे';
+      en_words += ' and ' + numToWordsEn(paisePart) + ' Paise';
+    }
+    mr_words += ' फक्त';
+    en_words += ' Only';
+  }
+
+  // Number formatted
+  const formatted = intPart.toLocaleString('en-IN') + (decStr ? '.' + decStr : '');
+
+  card.innerHTML = `
+    ${makeRow('अंक', formatted, 'font-family:\'Fira Code\',monospace;font-weight:600;font-size:1.15rem;color:var(--navy)')}
+    ${makeRow('मराठी', mr_words, 'marathi-text')}
+    ${makeRow('English', en_words, 'english-text')}
+  `;
+}
+
+function makeRow(label, value, extraClass) {
+  const id = 'val_' + label.replace(/\s/g,'');
+  const cls = typeof extraClass === 'string' && extraClass.includes(':') ? '' : extraClass;
+  const style = typeof extraClass === 'string' && extraClass.includes(':') ? ` style="${extraClass}"` : '';
+  return `
+    <div class="result-row">
+      <div class="row-label">${label}</div>
+      <div class="row-value ${cls}"${style} id="${id}">${value}</div>
+      <button class="copy-btn" onclick="copyText('${id}', this)" title="Copy">
+        📋<span class="label">Copy</span>
+      </button>
+    </div>`;
+}
+
+function copyText(id, btn) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '✅<span class="label">Done</span>';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '📋<span class="label">Copy</span>';
+    }, 1800);
+  }).catch(() => {
+    // Fallback for older browsers
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.innerHTML = '✅<span class="label">Done</span>';
+    setTimeout(() => { btn.innerHTML = '📋<span class="label">Copy</span>'; }, 1800);
+  });
+}
+
+// Allow Enter key
+document.getElementById('numInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') convert();
+});
+</script>
+</body>
+</html>
